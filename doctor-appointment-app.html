@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Doctor Appointment Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --light: #f9fafb;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f3f4f6;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background-color: white;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .hero-title span {
+            color: var(--primary);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Search Section */
+        .search-section {
+            margin: -40px auto 60px;
+            max-width: 950px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .search-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .search-group {
+            position: relative;
+        }
+        
+        .search-group i {
+            position: absolute;
+            left: 15px;
+            top: 38px;
+            color: var(--gray);
+        }
+        
+        .search-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .search-btn {
+            grid-column: 1 / -1;
+            justify-self: center;
+            margin-top: 10px;
+            padding: 12px 30px;
+        }
+        
+        /* Featured Doctors */
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+        
+        .section-title span {
+            color: var(--primary);
+        }
+        
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .doctor-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .doctor-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doctor-info {
+            padding: 20px;
+        }
+        
+        .doctor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .doctor-specialty {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-rating i {
+            color: #fbbf24;
+            margin-right: 2px;
+        }
+        
+        .doctor-rating span {
+            color: var(--gray);
+            margin-left: 5px;
+        }
+        
+        .doctor-location {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .doctor-location i {
+            margin-right: 8px;
+        }
+        
+        .doctor-fee {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .doctor-availability {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .time-slot {
+            background-color: var(--light);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* App Feature Section */
+        .features-section {
+            padding: 80px 0;
+            background-color: #f8fafc;
+        }
+        
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary);
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-description {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        /* Doctor Signup Section */
+        .doctor-signup {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .signup-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .signup-image {
+            flex: 1;
+        }
+        
+        .signup-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .signup-content {
+            flex: 1;
+        }
+        
+        .signup-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .signup-title span {
+            color: var(--secondary);
+        }
+        
+        .signup-description {
+            color: var(--gray);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .benefits-list {
+            margin-bottom: 30px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+        }
+        
+        .benefit-icon i {
+            color: var(--secondary);
+        }
+        
+        .benefit-text {
+            font-weight: 500;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background-color: #f8fafc;
+        }
+        
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .author-role {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-logo i {
+            color: var(--secondary);
+        }
+        
+        .footer-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #9ca3af;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero, .signup-container {
+                flex-direction: column;
+            }
+            
+            .hero-image, .signup-image {
+                order: -1;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Login/Signup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+        
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Switch user/doctor toggle */
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .switch-label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .switch-label.active {
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin: 0 10px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--light-gray);
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>MedConnect</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Find Doctors</a>
+                    <a href="#">Specialties</a>
+                    <a href="#">For Doctors</a>
+                    <a href="#">About Us</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="openModal('login-modal')">Login</button>
+                    <button class="btn btn-primary" onclick="openModal('signup-modal')">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Book Your <span>Medical Appointment</span> With Ease</h1>
+                <p class="hero-subtitle">Find top-rated doctors in your area and schedule appointments instantly. Get the care you deserve with our user-friendly platform.</p>
+                <button class="btn btn-primary" onclick="scrollToSearch()">Find Doctors Now</button>
+            </div>
+            <div class="hero-image">
+                <img src="/api/placeholder/600/400" alt="Doctor and patient">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Search Section -->
+    <section id="search-section" class="search-section container">
+        <h2 class="search-title">Find Your Doctor</h2>
+        <form class="search-form">
+            <div class="search-group">
+                <label class="search-label">Doctor Name</label>
+                <i class="fas fa-user-md"></i>
+                <input type="text" class="search-input" placeholder="e.g. Dr. Smith">
+            </div>
+            <div class="search-group">
+                <label class="search-label">Specialization</label>
+                <i class="fas fa-stethoscope"></i>
+                <input type="text" class="search-input" placeholder="e.g. Cardiology">
+            </div>
+            <div class="search-group">
+                <label class="search-label">Location</label>
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" class="search-input" placeholder="e.g. New York">
+            </div>
+            <div class="search-group">
+                <label class="search-label">Date</label>
+                <i class="far fa-calendar-alt"></i>
+                <input type="date" class="search-input">
+            </div>
+            <button type="submit" class="btn btn-primary search-btn">Search Doctors</button>
+        </form>
+    </section>
+    
+    <!-- Featured Doctors -->
+    <section class="container">
+        <h2 class="section-title">Our <span>Top Doctors</span></h2>
+        <div class="doctors-grid">
+            <!-- Doctor Card 1 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="/api/placeholder/300/300" alt="Dr. Sarah Johnson">
+                </div>
+                <div class="doctor-info">
+                    <h3 class="doctor-name">Dr. Sarah Johnson</h3>
+                    <p class="doctor-specialty">Cardiologist</p>
+                    <div class="doctor-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(124 reviews)</span>
+                    </div>
+                    <p class="doctor-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        New York, NY
+                    </p>
+                    <p class="doctor-fee">$150 per consultation</p>
+                    <div class="doctor-availability">
+                        <span class="time-slot">Mon 9AM-5PM</span>
+                        <span class="time-slot">Wed 9AM-5PM</span>
+                        <span class="time-slot">Fri 9AM-2PM</span>
+                    </div>
+                    <button class="btn btn-primary">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- App Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose <span>MedConnect</span></h2>
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Easy Doctor Search</h3>
+                    <p class="feature-description">Find the right specialist based on location, specialty, ratings, and availability in just a few clicks.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="far fa-calendar-check"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Booking</h3>
+                    <p class="feature-description">Book appointments instantly with real-time availability and get immediate confirmation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3 class="feature-title">Reminders & Notifications</h3>
+                    <p class="feature-description">Never miss an appointment with automated reminders and notifications about your bookings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Doctor Signup Section -->
+    <section class="doctor-signup">
+        <div class="container signup-container">
+            <div class="signup-content">
+                <h2 class="signup-title">Are You a <span>Doctor?</span></h2>
+                <p class="signup-description">Join our platform to grow your practice, manage appointments efficiently, and connect with more patients in your area.</p>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="benefit-text">Reach more patients and grow your practice</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="benefit-text">Manage your schedule and appointments online</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="benefit-text">Build your online reputation with patient reviews</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="benefit-text">Track your performance with detailed analytics</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="openModal('signup-modal')">Register as a Doctor</button>
+            </div>
+            <div class="signup-image">
+                <img src="/api/placeholder/500/400" alt="Doctor using digital tablet">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our <span>Users Say</span></h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"MedConnect made it so easy to find a specialist for my condition. I was able to book an appointment with a top cardiologist within minutes. The whole process was seamless and saved me so much time!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="/api/placeholder/100/100" alt="Patient">
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Rebecca L.</div>
+                            <div class="author-role">Patient</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a busy physician, MedConnect has completely transformed how I manage my practice. The scheduling system is intuitive, and I've gained many new patients through the platform. Highly recommended for medical professionals!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="/api/placeholder/100/100" alt="Doctor">
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Dr. Thomas H.</div>
+                            <div class="author-role">Dermatologist</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>MedConnect</span>
+                    </div>
+                    <p class="footer-description">Connecting patients with the right healthcare professionals for better and more accessible medical care.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Find Doctors</a></li>
+                        <li><a href="#">Specialties</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Join as Doctor</a></li>
+                        <li><a href="#">Doctor Dashboard</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Doctor Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Contact Us</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Medical Plaza, New York, NY 10001</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@medconnect.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 MedConnect. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('login-modal')">&times;</span>
+            <h2 class="modal-title">Log In Appointment</button>
+                </div>
+            </div>
+            
+            <!-- Doctor Card 2 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="/api/placeholder/300/300" alt="Dr. Michael Chen">
+                </div>
+                <div class="doctor-info">
+                    <h3 class="doctor-name">Dr. Michael Chen</h3>
+                    <p class="doctor-specialty">Dermatologist</p>
+                    <div class="doctor-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(98 reviews)</span>
+                    </div>
+                    <p class="doctor-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        San Francisco, CA
+                    </p>
+                    <p class="doctor-fee">$175 per consultation</p>
+                    <div class="doctor-availability">
+                        <span class="time-slot">Tue 10AM-6PM</span>
+                        <span class="time-slot">Thu 10AM-6PM</span>
+                        <span class="time-slot">Sat 10AM-2PM</span>
+                    </div>
+                    <button class="btn btn-primary">Book Appointment</button>
+                </div>
+            </div>
+            
+            <!-- Doctor Card 3 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="/api/placeholder/300/300" alt="Dr. Emily Rodriguez">
+                </div>
+                <div class="doctor-info">
+                    <h3 class="doctor-name">Dr. Emily Rodriguez</h3>
+                    <p class="doctor-specialty">Pediatrician</p>
+                    <div class="doctor-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>(156 reviews)</span>
+                    </div>
+                    <p class="doctor-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Chicago, IL
+                    </p>
+                    <p class="doctor-fee">$130 per consultation</p>
+                    <div class="doctor-availability">
+                        <span class="time-slot">Mon 8AM-4PM</span>
+                        <span class="time-slot">Wed 8AM-4PM</span>
+                        <span class="time-slot">Fri 8AM-4PM</span>
+                    </div>
+                    <button class="btn btn-primary">Book Appointment</button>
+                </div>
+            </div>
+            
+            <!-- Doctor Card 4 -->
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <img src="/api/placeholder/300/300" alt="Dr. James Wilson">
+                </div>
+                <div class="doctor-info">
+                    <h3 class="doctor-name">Dr. James Wilson</h3>
+                    <p class="doctor-specialty">Orthopedic Surgeon</p>
+                    <div class="doctor-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(87 reviews)</span>
+                    </div>
+                    <p class="doctor-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Boston, MA
+                    </p>
+                    <p class="doctor-fee">$200 per consultation</p>
+                    <div class="doctor-availability">
+                        <span class="time-slot">Tue 9AM-5PM</span>
+                        <span class="time-slot">Thu 9AM-5PM</span>
+                        <span class="time-slot">Sat 9AM-1PM</span>
+                    </div>
+                    <button class="btn btn-primary">Book
